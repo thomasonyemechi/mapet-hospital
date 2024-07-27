@@ -1,6 +1,6 @@
 @extends('layout.admin')
 @section('page_title')
-    Add New Staff
+    Manage Staffs
 @endsection
 
 @section('page_content')
@@ -23,7 +23,7 @@
                         </nav>
                     </div>
                     <div class="nav btn-group" role="tablist">
-
+                        
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                                             </div>
                                             <div>
                                                 <h2 class="fw-bold mb-1">
-                                                    34
+                                                    {{ \App\Models\User::count(); }}
                                                 </h2>
                                             </div>
                                         </div>
@@ -65,7 +65,7 @@
                                             </div>
                                             <div>
                                                 <h2 class="fw-bold mb-1">
-                                                    30
+                                                    {{ \App\Models\Department::count(); }}
                                                 </h2>
                                             </div>
                                         </div>
@@ -74,7 +74,7 @@
                                 </div>
                             </div>
 
-                      
+
                             <div class="col-md-12">
                                 <div class="d-flex">
                                     <a type="button" href="/admin/department"
@@ -100,7 +100,7 @@
                                     <div class="mb-3">
                                         <label class="form-label text-primary">Name<span class="required">*</span></label>
                                         <input type="text" name="name" value="{{ old('name') }}"
-                                            class="form-control form-control-sm" placeholder="James">
+                                            class="form-control form-control-sm" placeholder="Jasper Jackson">
 
                                         @error('name')
                                             <span class="text-danger small"> {{ $message }} </span>
@@ -123,14 +123,16 @@
 
                                 </div>
 
-                                
+
                                 <div class="col-xl-4">
                                     <div class="mb-3">
-                                        <label class="form-label text-primary">Department<span class="required">*</span></label>
-                                        <select name="role" class="form-control form-control-sm">
-                                            <option>Administrator</option>
-                                            <option>Member</option>
-                                            <option>Intenship</option>
+                                        <label class="form-label text-primary">Department<span
+                                                class="required">*</span></label>
+                                        <select name="department" class="form-control form-control-sm">
+                                            <option selected disabled >...Selected department...</option>
+                                            @foreach ($departments as $dept)
+                                                <option value="{{ $dept->id }}">{{ $dept->title }}</option>
+                                            @endforeach
                                         </select>
                                         @error('department')
                                             <span class="text-danger small"> {{ $message }} </span>
@@ -158,19 +160,20 @@
                                         <label class="form-label text-primary">Phone
                                             Number<span class="required  tex-danger">*</span></label>
                                         <input type="number" name="phone" value="{{ old('phone') }}"
-                                            class="form-control form-control-sm" placeholder="+123456789">
+                                            class="form-control form-control-sm" placeholder="0800000000">
                                         @error('phone')
                                             <span class="text-danger small"> {{ $message }} </span>
                                         @enderror
                                     </div>
                                 </div>
 
-                                
+
                                 <div class="col-xl-4">
                                     <div class="mb-3">
-                                        <label class="form-label text-primary">Address<span class="required  tex-danger">*</span></label>
-                                        <input type="number" name="address" value="{{ old('address') }}"
-                                            class="form-control form-control-sm" placeholder="+123456789">
+                                        <label class="form-label text-primary">Address<span
+                                                class="required  tex-danger">*</span></label>
+                                        <input type="text" name="address" value="{{ old('address') }}"
+                                            class="form-control form-control-sm" placeholder="home address">
                                         @error('address')
                                             <span class="text-danger small"> {{ $message }} </span>
                                         @enderror
@@ -193,7 +196,7 @@
 
         <div class="row mt-3">
             @foreach ($staffs as $staff)
-                <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="col-xl-3 col-lg-4 mb-2 col-sm-6">
                     <div class="card contact_list text-center">
                         <div class="card-body">
                             <div class="user-content">
@@ -204,7 +207,7 @@
                                     </div>
                                     <div class="user-details mt-2">
                                         <h4 class="user-name fw-bold text-dark-warning mb-0">{{ $staff->name }}</h4>
-                                        <p>{{ $staff->role }}</p>
+                                        <p> {{ $staff->department->title ?? ''}} {{  ($staff->role) ? $staff->role : '.' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -222,8 +225,8 @@
                 </div>
             @endforeach
 
-            <div class="col-md-12" >
-                <div class="d-flex justify-content-end" >
+            <div class="col-md-12">
+                <div class="d-flex justify-content-end">
                     {{ $staffs->links('pagination::bootstrap-4') }}
                 </div>
             </div>

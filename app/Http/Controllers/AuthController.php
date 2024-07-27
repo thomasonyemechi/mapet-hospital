@@ -22,7 +22,7 @@ class AuthController extends Controller
 
         $this->registerLogin();
 
-        return redirect('/pos?trno='.rand(23212,99999999))->with('success', 'Welcome back ' . auth()->user()->name);
+        return redirect('/invoice-overview')->with('success', 'Welcome back ' . auth()->user()->name);
     }
 
 

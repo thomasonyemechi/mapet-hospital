@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -49,7 +50,7 @@ class CategoryController extends Controller
 
     function deptIndex()
     {
-        $departments = Department::paginate(24);
+        $departments = Department::orderby('id', 'desc')->paginate(24);
         return view('admin.manage_department', compact(['departments']));
     }
 
@@ -64,6 +65,19 @@ class CategoryController extends Controller
             'created_by' => auth()->user()->id
         ]);
 
-        return back()->with('success', 'Department has been created successfuly');
+        return back()->with('success', 'department has been added successfuly');
+    }
+
+
+    function deleteDept($id)
+    {
+        $check = User::where(['department_id' => $id])->count();
+        if($check == 0) {
+            Department::where('id', $id)->delete();
+            return back()->with('success', 'Department has been deleted');
+        }
+
+        return back()->with('error', 'Department cannot be deleted');
+
     }
 }

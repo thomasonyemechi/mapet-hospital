@@ -54,7 +54,7 @@
 
                         <div class="col-2">
                             <input type="text" name="invoice_number" placeholder="Invoice Number"
-                                class="form-control w-100 py-1">
+                                class="form-control w-100 py-1" value="{{ $invoice_number }}">
                         </div>
                     </div>
                 </div>
@@ -69,240 +69,277 @@
                 <div class="card-body">
 
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="fw-bold" style="text-decoration: underline">Patient Details</h4>
-                                    <div class="row mb-2">
-                                        <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Full Name</span> <span>:</span>
+                    <form id="invoice_form" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="fw-bold" style="text-decoration: underline">Patient Details</h4>
+                                        <div class="row mb-2">
+                                            <div class="col-md-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Full Name</span> <span>:</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" name="firstname"
+                                                            value="{{ $client->firstname ?? old('firstname') }}"
+                                                            class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                            placeholder="First Name">
+
+                                                        <input type="hidden" name="client_id" value="{{ $client->id ?? '' }}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" name="lastname"
+                                                            value="{{ $client->lastname ?? old('lastname') }}"
+                                                            class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                            placeholder="Last name">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            <input type="text" name="name" value="{{ $client->name ?? old('name') }}"
-                                                class=" form-control px-2 me-2 py-0 p-0 w-100" placeholder="Patient Name">
-                                        </div>
-                                    </div>
 
 
-                                    <div class="row mb-2">
-                                        <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
-                                                <span>UPN</span> <span>:</span>
+                                        <div class="row mb-2">
+                                            <div class="col-md-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>UPN</span> <span>:</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" name="upn"
+                                                    value="{{ $client->upn ?? old('upn') }}"
+                                                    class=" form-control px-2 me-2 py-0 p-0 w-100" placeholder="Enter UPN">
                                             </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            <input type="text" name="upn" value="{{ $client->upn ?? old('upn') }}"
-                                                class=" form-control px-2 me-2 py-0 p-0 w-100" placeholder="Enter UPN">
-                                        </div>
-                                    </div>
 
-                                    <div class="row mb-2">
-                                        <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Age</span> <span>:</span>
+                                        <div class="row mb-2">
+                                            <div class="col-md-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Age</span> <span>:</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="number" name="age"
+                                                    value="{{ $client->age ?? old('age') }}"
+                                                    class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                    placeholder="Patient Age">
                                             </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            <input type="number" name="age" value="{{ $client->age ?? old('age') }}"
-                                                class=" form-control px-2 me-2 py-0 p-0 w-100" placeholder="Patient Age">
-                                        </div>
-                                    </div>
 
-                                    <div class="row mb-2">
-                                        <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Address</span> <span>:</span>
+                                        <div class="row mb-2">
+                                            <div class="col-md-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Address</span> <span>:</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" name="address"
+                                                    value="{{ $client->address ?? old('address') }}"
+                                                    class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                    placeholder="Home Address">
                                             </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            <input type="text" name="address"
-                                                value="{{ $client->address ?? old('address') }}"
-                                                class=" form-control px-2 me-2 py-0 p-0 w-100" placeholder="Home Address">
-                                        </div>
-                                    </div>
 
-                                    <div class="row mb-2">
-                                        <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Phone</span> <span>:</span>
+                                        <div class="row mb-2">
+                                            <div class="col-md-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Phone</span> <span>:</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="tel" name="phone"
+                                                    value="{{ $client->phone ?? old('phone') }}"
+                                                    class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                    placeholder="Phone Number"
+                                                    {{ isset($client->phone) ? 'readonly' : '' }}>
                                             </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            <input type="tel" name="phone"
-                                                value="{{ $client->phone ?? old('phone') }}"
-                                                class=" form-control px-2 me-2 py-0 p-0 w-100" placeholder="Phone Number"
-                                                {{ isset($client->phone) ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Email</span> <span>:</span>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Email</span> <span>:</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="email" name="email"
+                                                    value="{{ $client->email ?? old('email') }}"
+                                                    class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                    placeholder="Patient Email"
+                                                    {{ isset($client->email) ? 'readonly' : '' }}>
                                             </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            <input type="email" name="email"
-                                                value="{{ $client->email ?? old('email') }}"
-                                                class=" form-control px-2 me-2 py-0 p-0 w-100" placeholder="Patient Email"
-                                                {{ isset($client->email) ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
 
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="fw-bold" style="text-decoration: underline">Hospital Details</h4>
-                                    <div class="row mb-4">
-                                        <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Doctor</span> <span>:</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <select name="" class=" form-control px-2 me-2 py-0 p-0 w-100">
-                                                <option value="">Doc Ade</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row mb-4">
-                                        <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Bed No</span> <span>:</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="text" class=" form-control px-2 me-2 py-0 p-0 w-100"
-                                                placeholder="Bed No">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-4">
-                                        <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Admission Date</span> <span>:</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="date" class=" form-control px-2 me-2 py-0 p-0 w-100"
-                                                placeholder="Patient Age">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Discharge Date</span> <span>:</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="date" class=" form-control px-2 me-2 py-0 p-0 w-100"
-                                                placeholder="Home Address">
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                    </div>
 
 
-                    <div class="col-md-12 mt-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-text py-1 px-2 bg-success text-white fw-bold"
-                                                    id="basic-addon3">Select </span>
-                                                <select id="action" class="form-control py-1 px-1">
-                                                    <option value="product">Phamacuetical Items </option>
-                                                    <option value="service">Hospital Services</option>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="fw-bold" style="text-decoration: underline">Hospital Details</h4>
+                                        <div class="row mb-4">
+                                            <div class="col-md-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Doctor</span> <span>:</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <select name="doctor" class=" form-control px-2 me-2 py-0 p-0 w-100">
+                                                    @foreach ($doctors as $doc)
+                                                        <option value="{{ $doc->id }}">{{ $doc->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-7">
-                                        @include('pos.search')
-                                    </div>
 
-                                    <div class="col-md-2">
-                                        <div>
-                                            <button class="btn w-100 btn-sm py-1 btn-warning text-white additem_btn"
-                                                disabled>add</button>
+
+                                        <div class="row mb-4">
+                                            <div class="col-md-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Bed No</span> <span>:</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" name="bed_no"
+                                                    class=" form-control px-2 me-2 py-0 p-0 w-100" placeholder="Bed No">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-4">
+                                            <div class="col-md-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Admission Date</span> <span>:</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="date" name="admission_date"
+                                                    class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                    placeholder="Patient Age">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Discharge Date</span> <span>:</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="date" name="discharge_date"
+                                                    class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                    placeholder="Home Address">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-12 mt-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-text py-1 px-2 bg-success text-white fw-bold"
+                                                        id="basic-addon3">Select </span>
+                                                    <select id="action" class="form-control py-1 px-1">
+                                                        <option value="product">Phamacuetical Items </option>
+                                                        <option value="service">Hospital Services</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            @include('pos.search')
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div>
+                                                <button class="btn w-100 btn-sm py-1 btn-warning text-white additem_btn"
+                                                    disabled>add</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="table-responsive shadow-lg mt-3 " style="border-radius: 5px;">
-                        <table class="table table-bordered table-sm mb-0  invoice-table  ">
-                            <thead class="invoice-bg">
-                                <tr>
-                                    <th>Hospital Service</th>
-                                    <th>Qty</th>
-                                    <th>Rate</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
+                        <div class="table-responsive shadow-lg mt-3 " style="border-radius: 5px;">
+                            <table class="table table-bordered table-sm mb-0  invoice-table  ">
+                                <thead class="invoice-bg">
+                                    <tr>
+                                        <th>Hospital Service</th>
+                                        <th>Qty</th>
+                                        <th>Rate</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
 
-                            <tbody class="cart_list">
+                                <tbody class="cart_list">
 
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <div class="table-responsive shadow-lg mt-3 " style="border-radius: 5px;">
-                        <table class="table table-bordered mb-0 invoice-table table-sm ">
-                            <thead class="invoice-bg">
-                                <tr>
-                                    <th>Total Ammount</th>
-                                    <th>Initial Deposit</th>
-                                    <th>Outstanding Balance</th>
-                                    <th>30days</th>
-                                </tr>
+                        <div class="table-responsive shadow-lg mt-3 " style="border-radius: 5px;">
+                            <table class="table table-bordered mb-0 invoice-table table-sm ">
+                                <thead class="invoice-bg">
+                                    <tr>
+                                        <th>Total Ammount</th>
+                                        <th>Initial Deposit</th>
+                                        <th>Outstanding Balance</th>
+                                        <th>30days</th>
+                                    </tr>
 
-                            </thead>
+                                </thead>
 
-                            <tbody>
+                                <tbody>
 
-                                <tr>
-                                    <td>
-                                        <input type="number" class=" form-control px-2 me-2 py-0 p-0 w-100"
-                                            style="width:60px" placeholder="Total amount" name="cart_total">
-                                    </td>
+                                    <tr>
+                                        <td>
+                                            <input type="number" class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                style="width:60px" placeholder="Total amount" readonly name="cart_total">
+                                        </td>
 
-                                    <td>
-                                        <input type="number" class=" form-control px-2 me-2 py-0 p-0 w-100"
-                                            style="width:60px" placeholder="Deposit" name="initial_deposit">
-                                    </td>
-                                    <td>
-                                        <input type="number" class=" form-control px-2 me-2 py-0 p-0 w-100"
-                                            style="width:60px" placeholder="Outstanding" name="outstanding_balance">
-                                    </td>
-                                    <td>
-                                        <input type="number" class=" form-control px-2 me-2 py-0 p-0 w-100"
-                                            style="width:60px" placeholder="30 days" name="tt_days">
-                                    </td>
-                                </tr>
-                            </tbody>
+                                        <td>
+                                            <input type="number" class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                style="width:60px" placeholder="Deposit" name="initial_deposit">
+                                        </td>
+                                        <td>
+                                            <input type="number" class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                style="width:60px" placeholder="Outstanding" readonly
+                                                name="outstanding_balance">
+                                        </td>
+                                        <td>
+                                            <input type="number" class=" form-control px-2 me-2 py-0 p-0 w-100"
+                                                style="width:60px" placeholder="30 days" name="tt_days">
+                                        </td>
+                                    </tr>
+                                </tbody>
 
-                        </table>
+                            </table>
 
-                    </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="d-flex mt-3 justify-content-end ">
+                                <button class="btn me-2 btn-info checkout">Save & Print</button>
+                                <button class="btn btn-secondary">Save and Move to Profile</button>
+                            </div>
+                        </div>
+                    </form>
+
+
                 </div>
             </div>
         </div>
@@ -349,6 +386,9 @@
 
 
 
+
+
+
             function arrSort(arr) {
                 arr.sort((a, b) => a - b);
                 arr.reverse();
@@ -356,6 +396,15 @@
             }
 
 
+            function calTotal() {
+                total = $('input[name="cart_total"]').val();
+                initial_deposit = $('input[name="initial_deposit"]').val();
+                $('input[name="outstanding_balance"]').val(`${ total-initial_deposit }`);
+            }
+
+            $('input[name="initial_deposit"]').on('keyup', function() {
+                calTotal();
+            })
 
             function displayCart() {
                 items = getItems();
@@ -402,6 +451,7 @@
                     `)
 
                     $('input[name="cart_total"]').val(`${cart_total}`)
+                    calTotal();
                 });
             }
             displayCart();
@@ -426,6 +476,9 @@
                 $('#search').attr('autofocus', 'autofocus');
                 localStorage.setItem('invoice_items', JSON.stringify(cart));
                 displayCart();
+
+                msg(`${ item.name } has been added to invoice`)
+
             });
 
 
@@ -439,13 +492,16 @@
                 items.splice(index, 1);
                 setItem('invoice_items', items);
                 displayCart()
+
+                msg('Item has been removed from invoice list')
+
             })
 
 
             var timeout = null;
 
 
-            
+
             $('body').on('change', '.cart_qty', function() {
                 clearTimeout(timeout);
                 val = parseInt($(this).val());
@@ -478,10 +534,104 @@
             })
 
 
+            function checMeJusOut(btn, print) {
+                action = 'add_new';
+                firstname = $('input[name="firstname"]').val();
+                lastname = $('input[name="lastname"]').val();
+                upn = $('input[name="upn"]').val();
+                age = $('input[name="age"]').val();
+                email = $('input[name="email"]').val();
+                address = $('input[name="address"]').val();
+                phone = $('input[name="phone"]').val();
+                bed = $('input[name="bed_no"]').val();
+                admission_date = $('input[name="admission_date"]').val();
+                discharge_date = $('input[name="discharge_date"]').val();
 
-            $(document).on('click', '.additem_btn', function() {
+                total = $('input[name="cart_total"]').val();
+                initial_deposit = $('input[name="initial_deposit"]').val();
+                invoice_number = $('input[name="invoice_number"]').val();
+                outstanding_balance = $('input[name="outstanding_balance"]').val();
+                doctor = $('select[name="doctor"]').val();
+                days = $('input[name="tt_days"]').val();
+                client_id = $('input[name="client_id"]').val();
+                mode = $('#payment_mode').val();
+
+                if (!firstname) {
+                    msg('Please enter all required field');
+                    return;
+                }
+
+                end_point = ''
+
+                if (action == 'add_new') {
+                    end_point = '/create_invoice'
+                } else {
+                    end_point = '/edit_invoice'
+                }
+
+                btn_html = btn.html();
+
+                summary_id = `0`;
+                console.log(summary_id);
+
+                $.ajax({
+                    method: 'post',
+                    url: end_point,
+                    data: {
+                        '_token': `{{ csrf_token() }}`,
+                        total,
+                        doctor,
+                        initial_deposit,
+                        invoice_number,
+                        outstanding_balance,
+                        days,
+                        client_id,
+                        items: getItems(),
+                        sales_id: '0',
+                        mode: mode,
+                        action: action,
+                        delete_id: summary_id,
+                        firstname,
+                        lastname,
+                        bed,
+                        address,
+                        phone,
+                        email,
+                        age,
+                        upn,
+                        admission_date,
+                        discharge_date,
+                    },
+                    beforeSend: () => {
+                        btn.html(`
+                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> invoice is being created...  
+                    `)
+                    }
+                }).done(function(res) {
+                    console.log(res);
+                    localStorage.removeItem('invoice_items')
+                    msg(res.message);
+                    btn.html(`${btn_html}`);
+                    if (print == 'print') {
+                        location.href = `/invoice/print/${res.sales_id}`
+                    }
+
+                }).fail(function(res) {
+                    console.log(res);
+                    btn.html(`${btn_html}`)
+
+                })
+            }
+
+
+
+
+            $(document).on('click', '.additem_btn', function(e) {
+                e.preventDefault();
                 cart = (localStorage.getItem('invoice_items') == null) ? [] : JSON.parse(localStorage
                     .getItem('invoice_items'));
+                item_name = $('#service_name').val();
+
                 arr = {
                     uuid: Math.floor(Math.random() * 1000),
                     id: 7676,
@@ -494,7 +644,20 @@
                 $('#service_name').val('')
                 localStorage.setItem('invoice_items', JSON.stringify(cart));
                 displayCart();
+
+
+                msg(`${ item_name } has been added to invoice`)
+
+
             });
+
+
+            $('.checkout').on('click', function(e) {
+                e.preventDefault();
+                btn = $(this);
+                checMeJusOut(btn, 'print');
+            })
+
         })
     </script>
 @endpush

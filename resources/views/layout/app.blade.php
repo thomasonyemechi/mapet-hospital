@@ -32,6 +32,36 @@
             color: rgb(15, 10, 69);
         }
     </style>
+
+    <style>
+        /* 41b1be */
+        .invoice-table {
+            border: 2px solid #212659 !important;
+        }
+
+        .invoice-bg {
+            background-color: #212659;
+            color: white;
+        }
+
+
+
+        .invoice-bg-2 {
+            background-color: #41b1be;
+            color: white;
+        }
+
+
+        .text-m {
+            color: #212659;
+        }
+
+        .text-m-2 {
+            color: #41b1be;
+        }
+    </style>
+
+    
     @laravelPWA
 
 </head>
@@ -129,12 +159,12 @@
                     res.map((client, index) => {
                         string += (`
                             <div class="px-2 mb-1 text-white" style="border: 2px solid green; border-radius: 5px; background-color: lightgreen;" >
-                                <a href="/invoice/new/${client.id}"  >
+                                <a href="?client=${(client.id)}"  >
                                     <div class="row">
                                         <div class="col-md-6" >
                                             <div class="d-flex justify-content-between" >
-                                                <span class="fw-bold small mt-1" >#${client.card_no}</span>
-                                                <span class="" >${client.name}</span>
+                                                <span class="fw-bold small mt-1" >#${client.id}</span>
+                                                <span class="" >${client.firstname} ${client.lastname}</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6" >
@@ -278,7 +308,27 @@
                 $(".refresh").fadeOut(3000);
             }, 3000);
 
+
+
         })
+    </script>
+
+    <script>
+        function msg(msg)
+
+        {
+            Toastify({
+                text: `${msg}`,
+                duration: 5000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #01ff01)",
+                },
+            }).showToast();
+        }
     </script>
 
 

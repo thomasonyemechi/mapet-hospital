@@ -57,7 +57,7 @@
                                         </div>
                                         <div>
                                             <h2 class="fw-bold mb-1">
-                                                #150,000
+                                                {{ money(\App\Models\Payment::sum('amount')) }}
                                             </h2>
                                         </div>
                                     </div>
@@ -77,7 +77,7 @@
                                         </div>
                                         <div>
                                             <h2 class="fw-bold mb-1">
-                                                #12,750,000
+                                                {{ money(\App\Models\InvoiceSummary::sum('total')) }}
                                             </h2>
                                         </div>
                                     </div>
@@ -97,7 +97,7 @@
                                         </div>
                                         <div>
                                             <h2 class="fw-bold mb-1">
-                                                45
+                                                {{ \App\Models\InvoiceSummary::count() }}
                                             </h2>
                                         </div>
                                     </div>
@@ -109,17 +109,21 @@
 
                         <div class="col-md-12">
                             <div class="d-flex">
-                                <a type="button" href="#" class="btn btn-light add_item me-2 btn-sm py-2 btn-block">
+                                <a type="button" href="/invoice/new"
+                                    class="btn btn-light add_item me-2 btn-sm py-2 btn-block">
                                     <i class="fe fe-credit-card"> </i> Create New Invoce
                                 </a>
 
-                                <a href="#" class="btn btn-dark me-3 add_category btn-sm py-2 btn-block">
-                                    <i class="fe fe-users"> </i> Duplicate Invoice
+      
+
+                                <a href="/invoices" class="btn btn-success me-3 add_category btn-sm py-2 btn-block">
+                                    <i class="fe fe-list"> </i> All Invoices
                                 </a>
 
 
-                                <a href="#" class="btn btn-success me-3 add_category btn-sm py-2 btn-block">
-                                    <i class="fe fe-users"> </i> Register New Payment
+                                
+                                <a href="/payments" class="btn btn-secondary me-3 add_category btn-sm py-2 btn-block">
+                                    <i class="fe fe-plus-circle"> </i> Register Payment
                                 </a>
 
 
@@ -139,7 +143,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3">
-                        <h4 class="card-title fw-bold">Recent Payments</h4>
+                        <h4 class="card-title fw-bold">Invoices</h4>
                     </div>
 
                     <div class="table-responsive shadow-lg ">
@@ -147,39 +151,61 @@
                             <thead>
                                 <tr>
                                     <th>Client Name</th>
+                                    <th>Total</th>
+                                    <th>Paid</th>
                                     <th>Invoice No</th>
-                                    <th>Status</th>
-                                    <th>Payment Date </th>
+                                    <th>
+
+                                        Date
+                                    </th>
                                     <th></th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                <tr>
-                                    <td class="align-middle">
-                                        <a href="">
-                                            <h4 class="fw-bold text-info">Thomas Onyemchi</h4>
-                                        </a>
-                                    </td>
 
-                                    <td class="align-middle">
-                                        <a href="">
-                                            <span class="badge bg-primary">37238314525</span>
-                                        </a>
-                                    </td>
+                                @foreach ($invoices as $invoice)
+                                    <tr>
+                                        <td class="align-middle">
+                                            <a href="/client/{{ $invoice->client->id }}">
+                                                <h4 class="fw-bold fs-5 m-0 p-0 text-info">
+                                                    {{ucfirst($invoice->client->lastname . ' ' . $invoice->client->firstname) }}
+                                                </h4>
+                                            </a>
+                                        </td>
+                                        <td class="align-middle fw-bold">
+                                            {{ money($invoice->total) }}
+                                        </td>
 
+                                        <td class="align-middle fw-bold">
+                                            {{ money($invoice->initial_deposit) }}
+                                        </td>
 
-                                    <td class="align-middle">
-                                        <i class="fa fa-circle text-warning"></i>
-                                        Pending
-                                    </td>
-                                    <td> 7 jul, 2024 | 6:56 pm </td>
-                                    <td class="align-middle">
-                                        <div class="d-flex justify-content-end ">
-                                            <button class="btn py-0 px-1 btn-danger">delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        <td class="align-middle">
+                                            <a href="/invoice/{{ $invoice->id }}">
+                                                <span class="badge bg-primary">{{ $invoice->invoice_number }}</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ date('j M Y | h:i a', strtotime($invoice->created_at)) }}
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="d-flex justify-content-end ">
+                                                <div class="d-flex mt-1">
+                                                    <a href="/invoice/print/{{ $invoice->id }}" target="_blank"  class="me-2">
+                                                        <i class="fe fe-printer" title="Print Invoice"></i>
+                                                    </a>
+                                                    <a href="javascript:;" class="text-info me-2">
+                                                        <i class="fe fe-edit" title="deleted invoice"></i>
+                                                    </a>
+                                                    <a href="/delete_invoice/{{ $invoice->id }}" onclick="return confirm('Invoice and payments will be deleted')"  class="text-danger ">
+                                                        <i class="fe fe-trash"  title="deleted invoice"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

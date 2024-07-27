@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Login;
 use App\Models\SalesSummary;
 use App\Models\User;
@@ -20,6 +21,7 @@ class StaffController extends Controller
             'email' => 'required|email|unique:users,email',
             'name' => 'required|string|min:3',
             'role' => 'required|string',
+            'department' => 'required|exists:departments,id',
             'phone' => 'required|string'
         ])->validate();
 
@@ -29,17 +31,19 @@ class StaffController extends Controller
             'password' => Hash::make($request->password),
             'role' => $request->role,
             'phone' => $request->phone,
-            'password' => Hash::make($request->phone),
+            'address' => $request->address,
+            'department_id' => $request->department,
         ]);
 
-        return back()->with('success', 'Profile has been created for staff, continue to manage user hours');
+        return back()->with('success', 'Profile has been created for staff, continue to manage user hours and permissions');
     }
 
     function createStaffIndex()
     {
         $staffs = User::orderby('id', 'desc')->paginate(10);
+        $departments = Department::orderby('title', 'asc')->get();
 
-        return view('admin.add_staff', compact(['staffs']));
+        return view('admin.add_staff', compact(['staffs', 'departments']));
     }
 
 
@@ -70,7 +74,7 @@ class StaffController extends Controller
         $avg_transaction = SalesSummary::where(['user_id' => $user->id])->count();
         $items_sold = SalesSummary::where(['user_id' => $user->id])->count();
 
-        $logins = Login::where(['user_id' => $user->id])->orderby('id', 'desc')->limt(10)->get();
+        $logins = Login::where(['user_id' => $user->id])->orderby('id', 'desc')->limit(10)->get();
 
         $sales_history = SalesSummary::where(['user_id' => $user->id])->orderby('id', 'desc')->limit(10)->get();
 

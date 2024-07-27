@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
@@ -36,7 +37,7 @@ Route::get('/load_product', [TestController::class, 'loadProduct']);
 
 Route::get('/login', function () {
     if (auth()->user()) {
-        return redirect('/pos?trno=' . rand(111111111, 99999999999))->with('success', 'You are already logged in');
+        return redirect('/invoice-overview')->with('success', 'You are already logged in');
     }
     return view('login');
 })->name('login');
@@ -48,6 +49,7 @@ Route::get('/search_client', [ClientController::class, 'searchClient']);
 Route::get('/get_hours', [StaffController::class, 'modifyHours']);
 Route::post('/search_product', [ItemController::class, 'productSearch']);
 
+Route::get('/invoice/print/{invoice?}', [InvoiceController::class, 'printIndex']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/receipt/{trno}', [PosController::class, 'printReceipt']);
@@ -56,11 +58,33 @@ Route::get('/receipt/{trno}', [PosController::class, 'printReceipt']);
 
 Route::group(['middleware' => ['auth']], function () {
 
+    Route::get('/invoice/{invoice}', [InvoiceController::class, 'viewInvocieIndex']);
+    Route::get('/client/{id}', [ClientController::class, 'clientProfileIndex']);
+
+
 
     Route::post('/upload-excel', [ExcelImportController::class, 'importItems']);
-    Route::get('/pos', [PosController::class, 'posIndex']);
+    Route::get('/invoice-overview', [PosController::class, 'invoiceIndex']);
+    Route::get('/invoices', [PosController::class, 'invoicesIndex']);
+    Route::get('/make_restock', [PosController::class, 'make_restockIndex']);
     Route::get('/invoice/new/{id?}', [InvoiceController::class, 'newInvocieIndex']);
+    Route::get('/payments', [InvoiceController::class, 'paymentIndex']);
+    Route::get('/delete_payment/{pay_id}', [InvoiceController::class, 'deletePayment']);
+    Route::post('/register_payment', [InvoiceController::class, 'registerPayment']);
+    Route::post('/create_invoice', [InvoiceController::class, 'createNewInvoice']);
+    Route::post('/edit_invoice', [InvoiceController::class, 'editInvoice']);
+    Route::get('/delete_invoice/{invoice_id}', [InvoiceController::class, 'deleteInvoice']);
     Route::get('/get_sales/{sales_id}', [PosController::class, 'getSales']);
+    Route::get('/search_invoice/{invoice}', [InvoiceController::class, 'searchInvoice']);
+
+
+    Route::post('/add_vitals', [AdmissionController::class, 'addVitals']);
+    Route::get('/delete_vital/{id}', [AdmissionController::class, 'deleteVital']);
+    Route::post('/update_concern', [AdmissionController::class, 'updateClincalRecords']);
+    Route::get('/new-admission', [AdmissionController::class, 'admissionIndex']);
+    Route::post('/new-admission', [AdmissionController::class, 'newAdmisison']);
+    Route::get('/manage-admission', [AdmissionController::class, 'manageIndex']);
+    Route::get('/admission/{id}', [AdmissionController::class, 'admissionSigleIndex']);
 
 
     Route::post('/make_sales', [SalesController::class, 'makeSales']);
@@ -94,6 +118,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/department', [CategoryController::class, 'deptIndex']);
         Route::post('/create_department', [CategoryController::class, 'createDept']);
+        Route::get('/delete_department/{id}', [CategoryController::class, 'deleteDept']);
 
 
 
@@ -104,6 +129,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/delete_expenses_category/{id}', [ExpensesController::class, 'deleExpenseCategory']);
 
         Route::get('/stock-profile/{item}', [ItemController::class, 'adminStockProfile']);
+        Route::get('/stock/{item}', [ItemController::class, 'adminStockProfile']);
 
 
         Route::get('/staff/{id}', [StaffController::class, 'staffProfileIndex']);
@@ -120,6 +146,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::group(['prefix' => 'client'], function () {
             Route::get('/new-client', [ClientController::class, 'clientIndex']);
+            Route::post('/new-client', [ClientController::class, 'createClientProfile']);
+            Route::get('/all', [ClientController::class, 'allClient']);
         });
 
 

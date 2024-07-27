@@ -10,4 +10,10 @@ class Client extends Model
     use HasFactory;
 
     protected $guarded;
+
+
+    function fullname()
+    {
+        return $this->firstname.' '.$this->lastname;
+    }
 }

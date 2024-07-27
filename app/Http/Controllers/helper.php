@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Invoice;
+use App\Models\Restock;
 use App\Models\Stock;
 
 function def()
@@ -15,5 +17,6 @@ function money($money)
 
 function itemQty($id)
 {
-    return Stock::where(['item_id' => $id])->sum('quantity');
+   $balance = Restock::where('item_id', $id)->sum('quantity') - Invoice::where('item_id', $id)->sum('qty');
+    return $balance;
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
+use App\Models\InvoiceSummary;
 use App\Models\Organization;
 use App\Models\Sales;
 use App\Models\SalesSummary;
@@ -36,10 +38,29 @@ class PosController extends Controller
     }
 
 
+    function make_restockIndex()
+    {
+        return view('pos.make_restock');
+    }
+
+
+    public function invoiceIndex(Request $request)
+    {
+        $invoices = InvoiceSummary::orderby('id', 'desc')->limit(10)->get();
+        return view('pos.pos', compact(['invoices']));
+    }
+
+
+    function invoicesIndex(Request $request)
+    {
+        $invoices = InvoiceSummary::orderby('id', 'desc')->paginate(50);
+        return view('pos.all_invoices', compact(['invoices']));
+    }
+
     function getSales($sales_id)
     {
-        $sales_summary = SalesSummary::find($sales_id);
-        $sales = Sales::with(['item'])->where(['summary_id' => $sales_summary->id])->get();
+        $sales_summary = InvoiceSummary::find($sales_id);
+        $sales = Invoice::with(['item'])->where(['invoice_summary_id' => $sales_summary->id])->get();
 
         foreach($sales as $sale) {
             $sale->item->stock_qty = itemQty($sale->item->id);

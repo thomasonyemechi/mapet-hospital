@@ -1,1 +1,4 @@
 serve on 811
+
+
+ALTER TABLE `vitals` ADD `oxygen_rate` TEXT NULL AFTER `clinical_concerns`;

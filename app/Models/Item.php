@@ -17,4 +17,11 @@ class Item extends Model
     }
 
 
+
+    function item_balance()
+    {
+        return $this->hasMany(Restock::class, 'item_id')->sum('quantity') - $this->hasMany(Invoice::class, 'item_id')->sum('qty');
+    }
+
+
 }

@@ -22,9 +22,9 @@ class ItemController extends Controller
     {
 
         if ($request->search) {
-            $items = Item::where('name', 'like', "%$request->search%")->paginate(25);
+            $items = Item::where('name', 'like', "%$request->search%")->paginate(100);
         } else {
-            $items = Item::orderby('id', 'desc')->paginate(25);
+            $items = Item::orderby('id', 'desc')->paginate(100);
         }
 
         $categories = Category::get();
